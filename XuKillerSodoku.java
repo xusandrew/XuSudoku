@@ -66,12 +66,15 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 			{ { 8, 7 } }, // 9
 	};
 
-	JLabel level, lives;
-	JButton notes;
+	JLabel level_label, lives_label;
+	JButton notes_button;
 	int row = 9;
 	int col = 9;
 	JButton pics[] = new JButton[row * col];
+	boolean notes = false;
 	int selected = -1;
+	int level = 1;
+	int lives = 3;
 
 	public void init() {
 		resize(350, 500);
@@ -94,14 +97,14 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		p1.setBackground(new Color(205, 224, 238));
 		p1.setPreferredSize(new Dimension(225, 25));
 
-		JLabel level = new JLabel("Level: 00");
-		level.setPreferredSize(new Dimension(50, 25));
+		level_label = new JLabel("Level: " + level);
+		level_label.setPreferredSize(new Dimension(50, 25));
 
-		JLabel lives = new JLabel("Lives: 3/3");
-		lives.setPreferredSize(new Dimension(50, 25));
+		lives_label = new JLabel("Lives: " + lives + "/3");
+		lives_label.setPreferredSize(new Dimension(53, 25));
 
-		p1.add(level, BorderLayout.WEST);
-		p1.add(lives, BorderLayout.EAST);
+		p1.add(level_label, BorderLayout.WEST);
+		p1.add(lives_label, BorderLayout.EAST);
 
 		p1.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		gbc.gridx = 0;
@@ -112,7 +115,7 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		grid.setPreferredSize(new Dimension(270, 270));
 		grid.setBackground(new Color(205, 224, 238));
 		for (int m = 0; m < pics.length; m++) {
-			pics[m] = new JButton("" + m);
+			pics[m] = new JButton(" ");
 			pics[m].setPreferredSize(new Dimension(30, 30));
 
 			int edgeMargin = 4;
@@ -137,11 +140,11 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		erase.addActionListener(this);
 		erase.setActionCommand("erase");
 
-		notes = new JButton("Notes");
-		notes.setPreferredSize(new Dimension(50, 50));
-		notes.setMargin(new Insets(0, 0, 0, 0));
-		notes.addActionListener(this);
-		notes.setActionCommand("notes");
+		notes_button = new JButton("Notes");
+		notes_button.setPreferredSize(new Dimension(50, 50));
+		notes_button.setMargin(new Insets(0, 0, 0, 0));
+		notes_button.addActionListener(this);
+		notes_button.setActionCommand("notes");
 
 		JButton hint = new JButton("Hint");
 		hint.setPreferredSize(new Dimension(50, 50));
@@ -156,7 +159,7 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		reset.setActionCommand("reset");
 
 		p2.add(erase);
-		p2.add(notes);
+		p2.add(notes_button);
 		p2.add(hint);
 		p2.add(reset);
 
@@ -229,59 +232,53 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		return ans;
 	}
 
-	public void draw_boxes(){
+	public void draw_boxes() {
 		// int[][] shades_of_blue = {
-		// 	{ 84, 200,223 },
-		// 	{ 159, 211, 222},
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
-		// 	{ , , },
+		// { 84, 200,223 },
+		// { 159, 211, 222},
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
+		// { , , },
 		// };
 	};
 
-	public void button1() {
+	public void click_num(char num) {
+		int n = Character.getNumericValue(num);
 
+		if (selected != -1) {
+			int x = selected / row;
+			int y = selected % row;
+
+			if (notes) {
+
+			} else { // Notes are off
+
+				if (check_place(n, x, y)) {
+					board[x][y] = n;
+				} else {
+					lives -= 1;
+				}
+			}
+		}
+
+		redraw();
 	}
 
-	public void button2() {
-
-	}
-
-	public void button3() {
-
-	}
-
-	public void button4() {
-
-	}
-
-	public void button5() {
-
-	}
-
-	public void button6() {
-
-	}
-
-	public void button7() {
-
-	}
-
-	public void button8() {
-
-	}
-
-	public void button9() {
+	public boolean check_place(int n, int x, int y) {
+		if (n == answers[x][y]) {
+			return true;
+		}
+		return false;
 
 	}
 
@@ -311,7 +308,7 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		int m = 0;
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
-				if (board[i][j] == 0){
+				if (board[i][j] == 0) {
 					pics[m].setText("");
 				} else {
 					pics[m].setText("" + board[i][j]);
@@ -322,48 +319,34 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		}
 		if (selected != -1)
 			pics[selected].setBackground(new Color(238, 130, 239));
-		
+
+		level_label.setText("Level: " + level);
+		lives_label.setText("Lives: " + lives + "/3");
+
 	}
 
 	public void click(int pos) {
-
 		if (selected == pos) { // If a place is selected
 			selected = -1;
 		} else {
 			selected = pos;
 		}
-		System.out.println(selected);
 		redraw();
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
-		if (e.getActionCommand().equals("reset")) {
+		String action_command = e.getActionCommand();
+
+		if (action_command.equals("reset")) {
 			// reset();
-		} else if (e.getActionCommand().equals("next")) {
+		} else if (action_command.equals("next")) {
 			// next();
 
-		} else if (e.getActionCommand().equals("button1")) {
-			button1();
-		} else if (e.getActionCommand().equals("button2")) {
-			button2();
-		} else if (e.getActionCommand().equals("button3")) {
-			button3();
-		} else if (e.getActionCommand().equals("button4")) {
-			button4();
-		} else if (e.getActionCommand().equals("button5")) {
-			button5();
-		} else if (e.getActionCommand().equals("button6")) {
-			button6();
-		} else if (e.getActionCommand().equals("button7")) {
-			button7();
-		} else if (e.getActionCommand().equals("button8")) {
-			button8();
-		} else if (e.getActionCommand().equals("button9")) {
-			button9();
+		} else if (action_command.charAt(0) == 'b') {
+			click_num(action_command.charAt(6));
 		} else {
 			// grid pieces
-			int pos = Integer.parseInt(e.getActionCommand());
+			int pos = Integer.parseInt(action_command);
 			click(pos);
 		}
 
@@ -378,8 +361,6 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		// redraw();
 		// }
 	}
-
-
 
 	protected static ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = XuKillerSodoku.class.getResource(path);
