@@ -1,6 +1,6 @@
 // Name: Andrew Xu
 // Date: 4/29/22
-// Purpose: Killer Sodoku Grid Game
+// Purpose Sodoku Grid Game
 
 import javax.swing.*;
 import java.applet.*;
@@ -31,43 +31,9 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 			{ 6, 9, 3, 2, 1, 8, 7, 4, 5 },
 			{ 4, 8, 2, 7, 5, 3, 1, 9, 6 },
 	};
-	int[][][] boxes = {
-			{ { 0, 0 }, { 0, 1 }, { 1, 0 } }, // 13
-			{ { 1, 1 }, { 0, 2 }, { 1, 2 }, { 0, 3 }, { 1, 3 }, { 1, 4 } }, // 34
-			{ { 0, 4 }, { 0, 5 }, { 1, 5 } }, // 16
-			{ { 0, 6 }, { 0, 7 } }, // 11
-			{ { 0, 8 }, { 1, 8 } }, // 10
-			{ { 1, 6 }, { 2, 6 } }, // 7
-			{ { 1, 7 }, { 2, 7 } }, // 9
-			{ { 2, 0 }, { 3, 0 } }, // 7
-			{ { 2, 1 }, { 2, 2 }, { 2, 3 } }, // 14
-			{ { 2, 4 }, { 2, 5 } }, // 8
-			{ { 2, 8 }, { 3, 8 } }, // 12
-			{ { 4, 0 }, { 4, 1 }, { 3, 1 } }, // 11
-			{ { 3, 2 }, { 4, 2 } }, // 14
-			{ { 5, 1 }, { 5, 2 } }, // 9
-			{ { 3, 3 }, { 3, 4 }, { 3, 5 } }, // 9
-			{ { 4, 3 }, { 5, 3 } }, // 14
-			{ { 4, 4 }, { 5, 4 } }, // 6
-			{ { 3, 6 }, { 3, 7 } }, // 17
-			{ { 4, 5 }, { 4, 6 }, { 4, 7 }, { 4, 8 } }, // 23
-			{ { 5, 0 }, { 6, 0 }, { 7, 0 }, { 8, 0 } }, // 26
-			{ { 5, 5 }, { 6, 5 }, { 6, 6 } }, // 21
-			{ { 5, 6 }, { 5, 7 }, { 5, 8 }, { 6, 8 } }, // 12
-			{ { 6, 1 }, { 7, 1 } }, // 14
-			{ { 8, 1 } }, // 8
-			{ { 6, 2 }, { 7, 2 }, { 7, 3 } }, // 6
-			{ { 8, 2 }, { 8, 3 } }, // 9
-			{ { 6, 3 } }, // 4
-			{ { 6, 4 }, { 7, 4 }, { 7, 5 } }, // 18
-			{ { 8, 4 }, { 8, 5 }, { 8, 6 } }, // 9
-			{ { 7, 6 } }, // 7
-			{ { 6, 7 }, { 7, 7 }, { 7, 8 }, { 8, 8 } }, // 18
-			{ { 8, 7 } }, // 9
-	};
 
 	JLabel level_label, lives_label;
-	JButton notes_button;
+	// JButton notes_button;
 	int row = 9;
 	int col = 9;
 	JButton pics[] = new JButton[row * col];
@@ -111,22 +77,58 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		gbc.gridy = 1;
 		add(p1, gbc);
 
-		JPanel grid = new JPanel(new GridLayout(9, 9));
-		grid.setPreferredSize(new Dimension(270, 270));
-		grid.setBackground(new Color(205, 224, 238));
-		for (int m = 0; m < pics.length; m++) {
-			pics[m] = new JButton(" ");
-			pics[m].setPreferredSize(new Dimension(30, 30));
+		JPanel grid = new JPanel(new GridBagLayout());
+		GridBagConstraints gbc_grid = new GridBagConstraints();
+		grid.setPreferredSize(new Dimension(235, 235));
 
-			int edgeMargin = 4;
-			int[] margins = getMargins(m, edgeMargin);
-			pics[m].setMargin(new Insets(margins[0], margins[1], margins[2], margins[3]));
+		for (int i = 0; i < 11; i++) {
+			for (int j = 0; j < 11; j++) {
+				gbc_grid.gridx = j;
+				gbc_grid.gridy = i;
 
-			pics[m].setBackground(Color.white);
-			pics[m].setActionCommand("" + m);
-			pics[m].addActionListener(this);
-			grid.add(pics[m]);
+				if (i == 3 || i == 7){
+					JButton space_label1 = new JButton("");
+					space_label1.setMargin(new Insets(0,0,0,0));
+					space_label1.setBorderPainted(false);
+
+					if (i == 2 || i == 5)
+						space_label1.setPreferredSize(new Dimension(5,5));
+					else
+						space_label1.setPreferredSize(new Dimension(25,5));
+
+					grid.add(space_label1, gbc_grid);
+			
+
+				} else {
+					if (j == 3 || j == 7){
+						JButton space_label2 = new JButton("");
+						space_label2.setMargin(new Insets(0,0,0,0));
+						space_label2.setPreferredSize(new Dimension(5,25));
+						space_label2.setBorderPainted(false);
+						grid.add(space_label2, gbc_grid);
+
+					} else {
+						int r_shift = (i + 1) / 4;
+						int c_shift = (j + 1) / 4;
+
+						int r = i - r_shift;
+						int c = j - c_shift;
+
+						int m = r * 9 + c;
+
+						pics[m] = new JButton("" + m);
+						pics[m].setPreferredSize(new Dimension(25, 25));
+						pics[m].setMargin(new Insets(0,0,0,0));
+						pics[m].setBackground(Color.white);
+						pics[m].setActionCommand("" + m);
+						pics[m].addActionListener(this);
+						grid.add(pics[m], gbc_grid);
+
+					}
+				}
+			}
 		}
+
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		add(grid, gbc);
@@ -140,11 +142,11 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		erase.addActionListener(this);
 		erase.setActionCommand("erase");
 
-		notes_button = new JButton("Notes");
-		notes_button.setPreferredSize(new Dimension(50, 50));
-		notes_button.setMargin(new Insets(0, 0, 0, 0));
-		notes_button.addActionListener(this);
-		notes_button.setActionCommand("notes");
+		// notes_button = new JButton("Notes");
+		// notes_button.setPreferredSize(new Dimension(50, 50));
+		// notes_button.setMargin(new Insets(0, 0, 0, 0));
+		// notes_button.addActionListener(this);
+		// notes_button.setActionCommand("notes");
 
 		JButton hint = new JButton("Hint");
 		hint.setPreferredSize(new Dimension(50, 50));
@@ -159,7 +161,7 @@ public class XuKillerSodoku extends Applet implements ActionListener {
 		reset.setActionCommand("reset");
 
 		p2.add(erase);
-		p2.add(notes_button);
+		// p2.add(notes_button);
 		p2.add(hint);
 		p2.add(reset);
 
