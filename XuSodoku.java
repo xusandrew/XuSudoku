@@ -377,3 +377,4 @@ public class XuSodoku extends Applet implements ActionListener {
 			return null;
 	}
 }
+
