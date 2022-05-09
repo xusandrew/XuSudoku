@@ -1,1 +1,3 @@
-# Killer-Sodoku
+#Sodoku
+
+Soduku game lmfao
