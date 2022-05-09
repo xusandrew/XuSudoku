@@ -33,15 +33,15 @@ public class XuSodoku extends Applet implements ActionListener {
 					{ 3, 0, 4, 0, 8, 0, 0, 6, 1 },
 			},
 			{
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+					{ 0, 4, 0, 7, 2, 0, 1, 0, 0 },
+					{ 0, 3, 0, 9, 0, 6, 0, 2, 0 },
+					{ 6, 0, 2, 0, 3, 0, 8, 9, 0 },
+					{ 0, 0, 0, 2, 0, 9, 0, 3, 0 },
+					{ 0, 0, 3, 5, 0, 0, 0, 0, 0 },
+					{ 0, 2, 8, 0, 7, 0, 6, 0, 1 },
+					{ 0, 0, 0, 0, 0, 0, 3, 0, 2 },
+					{ 0, 9, 0, 8, 0, 0, 4, 0, 0 },
+					{ 0, 0, 4, 0, 5, 0, 0, 0, 0 },
 			}
 	};
 
@@ -58,16 +58,17 @@ public class XuSodoku extends Applet implements ActionListener {
 					{ 3, 7, 4, 9, 8, 2, 5, 6, 1 }
 			},
 			{
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+					{,,,,,,,,},
+					{,,,,,,,,},
+					{,,,,,,,,},
+					{,,,,,,,,},
+					{,,,,,,,,},
+					{,,,,,,,,},
+					{,,,,,,,,},
+					{,,,,,,,,},
+					{,,,,,,,,},
 			}
+			
 	};
 
 	JLabel level_label, lives_label;
@@ -88,7 +89,7 @@ public class XuSodoku extends Applet implements ActionListener {
 		gbc.fill = GridBagConstraints.VERTICAL;
 		gbc.ipady = 5;
 
-		JLabel title = new JLabel("Killer Sodoku");
+		JLabel title = new JLabel("Sodoku");
 		title.setFont(new Font("Arial", Font.BOLD, 35));
 
 		gbc.gridx = 0;
@@ -237,11 +238,11 @@ public class XuSodoku extends Applet implements ActionListener {
 		instructions.addActionListener(this);
 		instructions.setActionCommand("instructions");
 
-		JButton skip = new JButton("Reveal/Skip");
+		JButton skip = new JButton("Next");
 		skip.setPreferredSize(new Dimension(100, 50));
 		skip.setMargin(new Insets(0, 0, 0, 0));
 		skip.addActionListener(this);
-		skip.setActionCommand("skip");
+		skip.setActionCommand("next");
 
 		p4.add(instructions, BorderLayout.WEST);
 		p4.add(skip, BorderLayout.EAST);
@@ -278,25 +279,25 @@ public class XuSodoku extends Applet implements ActionListener {
 
 	}
 
-	// public void copyOver(int a[][], int b[][]) {
-	// for (int i = 0; i < row; i++) {
-	// for (int j = 0; j < col; j++) {
-	// a[i][j] = b[i][j];
-	// }
-	// }
-	// }
+	public int[][] get_level(){
+		int[][] ans = new int[9][9];
 
-	// public void next_level() {
-
-	// redraw();
-	// }
-
-	public void reset() {
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
-				board[i][j] = puzzles[level][i][j];
+				ans[i][j] = puzzles[level][i][j];
 			}
 		}
+		return ans;
+	}
+
+	public void next_level() {
+		level += 1;
+		board = get_level();
+		redraw();
+	}
+
+	public void reset() {
+		board = get_level();
 
 		selected = -1;
 		lives = 3;
@@ -353,7 +354,7 @@ public class XuSodoku extends Applet implements ActionListener {
 		if (action_command.equals("reset")) {
 			reset();
 		} else if (action_command.equals("next")) {
-			// next_level();
+			next_level();
 
 		} else if (action_command.charAt(0) == 'b') {
 			click_num(action_command.charAt(6));
@@ -376,4 +377,3 @@ public class XuSodoku extends Applet implements ActionListener {
 			return null;
 	}
 }
-
