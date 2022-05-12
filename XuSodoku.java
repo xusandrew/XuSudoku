@@ -12,13 +12,14 @@ public class XuSodoku extends Applet implements ActionListener {
 	Panel card1, card2, card3, card4, card5; // the two screens
 	CardLayout cdLayout = new CardLayout();
 
-	JLabel level_label, lives_label;
 	int row = 9;
 	int col = 9;
-	JButton pics[] = new JButton[row * col];
 	int selected = -1;
 	int level = 0;
 	int lives = 3;
+
+	JLabel level_label, lives_label;
+	JButton pics[] = new JButton[row * col];
 
 	int[][] board = {
 			{ 0, 3, 1, 6, 0, 7, 0, 8, 0 },
@@ -84,7 +85,6 @@ public class XuSodoku extends Applet implements ActionListener {
 	};
 
 	public void init() {
-		// Initialize all screens
 		p_card = new Panel();
 		p_card.setLayout(cdLayout);
 		screen1();
@@ -97,9 +97,7 @@ public class XuSodoku extends Applet implements ActionListener {
 
 	public void screen1() {
 		card1 = new Panel();
-		// card1.setBackground(new Color(71, 137, 102));
-		// Add background img
-		JButton bkg = new JButton(createImageIcon("background.png"));
+		JButton bkg = new JButton(createImageIcon("background.jpg"));
 		bkg.setPreferredSize(new Dimension(350, 500));
 		bkg.setActionCommand("s2");
 		bkg.addActionListener(this);
@@ -109,9 +107,7 @@ public class XuSodoku extends Applet implements ActionListener {
 
 	public void screen2() {
 		card2 = new Panel();
-		// card2.setBackground(new Color(71, 137, 102));
-		// Add background img
-		JButton bkg = new JButton(createImageIcon("instructions.png"));
+		JButton bkg = new JButton(createImageIcon("instructions.jpg"));
 		bkg.setPreferredSize(new Dimension(350, 500));
 		bkg.setActionCommand("s3");
 		bkg.addActionListener(this);
@@ -123,123 +119,40 @@ public class XuSodoku extends Applet implements ActionListener {
 		card3 = new Panel();
 		card3.setBackground(new Color(205, 224, 238));
 
-		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
-		this.setLayout(layout);
-		gbc.ipady = 100;
+		this.setLayout(new GridBagLayout());
 		gbc.fill = GridBagConstraints.VERTICAL;
 
 		JLabel title = new JLabel("Sodoku");
-		title.setFont(new Font("Arial", Font.BOLD, 35));
-
-		JPanel p1 = new JPanel(new BorderLayout());
-		p1.setBackground(new Color(205, 224, 238));
-		p1.setPreferredSize(new Dimension(225, 25));
-
-		level_label = new JLabel("Level: " + (level + 1));
-		level_label.setPreferredSize(new Dimension(50, 25));
-
-		lives_label = new JLabel("Lives: " + lives + "/3");
-		lives_label.setPreferredSize(new Dimension(53, 25));
-
-		p1.add(level_label, BorderLayout.WEST);
-		p1.add(lives_label, BorderLayout.EAST);
-
-		p1.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-
-		JPanel grid = get_grid();
-
-		JPanel p2 = new JPanel(new GridLayout(1, 4));
-		p2.setBackground(new Color(205, 224, 238));
-
-		JButton erase = new JButton(createImageIcon("erase.png"));
-		erase.setPreferredSize(new Dimension(50, 50));
-		erase.setBackground(Color.white);
-		erase.setMargin(new Insets(0, 0, 0, 0));
-		erase.addActionListener(this);
-		erase.setActionCommand("erase");
-
-		JButton hint = new JButton(createImageIcon("hint.png"));
-		hint.setPreferredSize(new Dimension(50, 50));
-		hint.setBackground(Color.white);
-		hint.setMargin(new Insets(0, 0, 0, 0));
-		hint.addActionListener(this);
-		hint.setActionCommand("hint");
-
-		JButton reset = new JButton(createImageIcon("reset.png"));
-		reset.setPreferredSize(new Dimension(50, 50));
-		reset.setBackground(Color.white);
-		reset.setMargin(new Insets(0, 0, 0, 0));
-		reset.addActionListener(this);
-		reset.setActionCommand("reset");
-
-		p2.add(erase);
-		p2.add(hint);
-		p2.add(reset);
-
-		JPanel p3 = new JPanel(new GridLayout(1, 9));
-		p3.setBackground(new Color(205, 224, 238));
-		p3.setPreferredSize(new Dimension(270, 30));
-
-		JButton[] number_buttons = new JButton[9];
-		for (int i = 0; i < 9; i++) {
-			number_buttons[i] = new JButton("" + (i + 1));
-			number_buttons[i].setPreferredSize(new Dimension(30, 30));
-			number_buttons[i].setMargin(new Insets(0, 0, 0, 0));
-			number_buttons[i].setBackground(Color.white);
-			number_buttons[i].setActionCommand("button" + (i + 1));
-			number_buttons[i].addActionListener(this);
-			p3.add(number_buttons[i]);
-		}
-
-		JPanel p4 = new JPanel(new BorderLayout());
-		p4.setBackground(new Color(205, 224, 238));
-		p4.setPreferredSize(new Dimension(300, 50));
-
-		JButton instructions = new JButton(createImageIcon("instructions.png"));
-		instructions.setPreferredSize(new Dimension(100, 50));
-		instructions.setBackground(Color.white);
-		instructions.setMargin(new Insets(0, 0, 0, 0));
-		instructions.addActionListener(this);
-		instructions.setActionCommand("instructions");
-
-		JButton skip = new JButton(createImageIcon("next.png"));
-		skip.setPreferredSize(new Dimension(100, 50));
-		skip.setBackground(Color.white);
-		skip.setMargin(new Insets(0, 0, 0, 0));
-		skip.addActionListener(this);
-		skip.setActionCommand("next");
-
-		p4.add(instructions, BorderLayout.WEST);
-		p4.add(skip, BorderLayout.EAST);
+		title.setFont(new Font("Arial", Font.BOLD, 40));
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		card3.add(title, gbc);
 
-		gbc.gridy = 1;
-		card3.add(p1, gbc);
+		gbc.gridy++;
+		card3.add(get_p1(), gbc);
 
-		gbc.gridy = 2;
-		card3.add(grid, gbc);
+		gbc.gridy++;
+		card3.add(get_grid(), gbc);
 
-		gbc.gridy = 3;
-		card3.add(get_space(), gbc);
+		gbc.gridy++;
+		card3.add(get_space(1, 40, true), gbc);
 
-		gbc.gridy = 4;
-		card3.add(p2, gbc);
+		gbc.gridy++;
+		card3.add(get_p2(), gbc);
 
-		gbc.gridy = 5;
-		card3.add(get_space(), gbc);
+		gbc.gridy++;
+		card3.add(get_space(1, 40, true), gbc);
 
-		gbc.gridy = 6;
-		card3.add(p3, gbc);
+		gbc.gridy++;
+		card3.add(get_p3(), gbc);
 
-		gbc.gridy = 7;
-		card3.add(get_space(), gbc);
+		gbc.gridy++;
+		card3.add(get_space(1, 40, true), gbc);
 
-		gbc.gridy = 8;
-		card3.add(p4, gbc);
+		gbc.gridy++;
+		card3.add(get_p4(), gbc);
 
 		p_card.add("3", card3);
 	}
@@ -251,74 +164,199 @@ public class XuSodoku extends Applet implements ActionListener {
 		GridBagConstraints gbc_grid = new GridBagConstraints();
 		grid.setPreferredSize(new Dimension(235, 250));
 		gbc_grid.fill = GridBagConstraints.BOTH;
+
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
 				gbc_grid.gridx = j;
 				gbc_grid.gridy = i;
-
-				if (i == 3 || i == 7) {
-					JButton space_label1 = new JButton("");
-					space_label1.setMargin(new Insets(0, 0, 0, 0));
-					space_label1.setBorderPainted(false);
-					space_label1.setBackground(new Color(25, 140, 207));
-
-					if (i == 2 || i == 5)
-						space_label1.setPreferredSize(new Dimension(5, 5));
-					else
-						space_label1.setPreferredSize(new Dimension(25, 5));
-
-					grid.add(space_label1, gbc_grid);
-
-				} else {
-					if (j == 3 || j == 7) {
-						JButton space_label2 = new JButton("");
-						space_label2.setMargin(new Insets(0, 0, 0, 0));
-						space_label2.setPreferredSize(new Dimension(5, 25));
-						space_label2.setBorderPainted(false);
-						space_label2.setBackground(new Color(25, 140, 207));
-						grid.add(space_label2, gbc_grid);
-
-					} else {
-						int r_shift = (i + 1) / 4;
-						int c_shift = (j + 1) / 4;
-
-						int r = i - r_shift;
-						int c = j - c_shift;
-
-						int m = r * 9 + c;
-
-						int a = m / 9;
-						int b = m % 9;
-
-						if (board[a][b] == 0)
-							pics[m] = new JButton("   ");
-						else {
-							pics[m] = new JButton(" " + board[a][b] + " ");
-						}
-
-						pics[m].setSize(new Dimension(25, 25));
-						pics[m].setMargin(new Insets(0, 0, 0, 0));
-						pics[m].setBackground(Color.white);
-						pics[m].setFont(new Font("Arial", Font.BOLD, 16));
-						pics[m].setActionCommand("" + m);
-						pics[m].addActionListener(this);
-						grid.add(pics[m], gbc_grid);
-					}
-				}
+				grid.add(handle_grid_space(i, j), gbc_grid);
 			}
 		}
 
 		return grid;
-
 	}
 
-	public JButton get_space() {
+	public JButton handle_grid_space(int i, int j){
+		if (i == 3 || i == 7) {
+			if (i == 2 || i == 5)
+				return get_space(5,5, false);
+			else
+				return get_space(25,5, false);
+
+		} else {
+			if (j == 3 || j == 7) {
+				return get_space(5,25, false);
+
+			} else {
+				JButton pic_to_add = add_num_to_grid(i, j);
+				return pic_to_add;
+			}
+		}
+	}
+
+	public JButton add_num_to_grid(int i, int j){
+		int r_shift = (i + 1) / 4;
+		int c_shift = (j + 1) / 4;
+
+		int r = i - r_shift;
+		int c = j - c_shift;
+
+		int m = r * 9 + c;
+
+		int a = m / 9;
+		int b = m % 9;
+
+		if (board[a][b] == 0)
+			pics[m] = new JButton("   ");
+		else 
+			pics[m] = new JButton(" " + board[a][b] + " ");
+
+		pics[m].setSize(new Dimension(25, 25));
+		pics[m].setMargin(new Insets(0, 0, 0, 0));
+		pics[m].setBackground(Color.white);
+		pics[m].setFont(new Font("Arial", Font.BOLD, 16));
+		pics[m].setActionCommand("" + m);
+		pics[m].addActionListener(this);
+
+		return pics[m];
+	}
+
+	public JPanel get_p1(){
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBackground(new Color(205, 224, 238));
+		panel.setPreferredSize(new Dimension(225, 25));
+
+		level_label = new JLabel("Level: " + (level + 1));
+		level_label.setPreferredSize(new Dimension(50, 25));
+
+		lives_label = new JLabel("Lives: " + lives + "/3");
+		lives_label.setPreferredSize(new Dimension(53, 25));
+
+		panel.add(level_label, BorderLayout.WEST);
+		panel.add(lives_label, BorderLayout.EAST);
+	
+		panel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+
+		return panel;
+	}
+
+	public JPanel get_p2(){
+		JPanel panel = new JPanel(new GridLayout(1, 4));
+		panel.setBackground(new Color(205, 224, 238));
+
+		JButton[] middle_buttons = new JButton[3];
+		String[] middle_button_names = {"erase","hint","reset"};
+
+		for (int i = 0; i < 3; i++){
+			middle_buttons[i] = new JButton(createImageIcon(middle_button_names[i]+".png"));
+			middle_buttons[i].setPreferredSize(new Dimension(50, 50));
+			middle_buttons[i].setBackground(Color.white);
+			middle_buttons[i].setMargin(new Insets(0, 0, 0, 0));
+			middle_buttons[i].addActionListener(this);
+			middle_buttons[i].setActionCommand(middle_button_names[i]);
+			panel.add(middle_buttons[i]);
+		}
+
+		return panel;
+	}
+
+	public JPanel get_p3(){
+		JPanel panel = new JPanel(new GridLayout(1, 9));
+		panel.setBackground(new Color(205, 224, 238));
+		panel.setPreferredSize(new Dimension(270, 30));
+
+		JButton[] number_buttons = new JButton[9];
+		for (int i = 0; i < 9; i++) {
+			number_buttons[i] = new JButton("" + (i + 1));
+			number_buttons[i].setPreferredSize(new Dimension(30, 30));
+			number_buttons[i].setMargin(new Insets(0, 0, 0, 0));
+			number_buttons[i].setBackground(Color.white);
+			number_buttons[i].setActionCommand("button" + (i + 1));
+			number_buttons[i].addActionListener(this);
+			panel.add(number_buttons[i]);
+		}
+
+		return panel;
+	}
+
+	public JPanel get_p4(){
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBackground(new Color(205, 224, 238));
+		panel.setPreferredSize(new Dimension(300, 50));
+
+		JButton[] middle_buttons = new JButton[2];
+		String[] middle_button_names = {"instructions","next"};
+
+		for (int i = 0; i < 2; i++){
+			middle_buttons[i] = new JButton(createImageIcon(middle_button_names[i]+".png"));
+			middle_buttons[i].setPreferredSize(new Dimension(100, 50));
+			middle_buttons[i].setBackground(Color.white);
+			middle_buttons[i].setMargin(new Insets(0, 0, 0, 0));
+			middle_buttons[i].addActionListener(this);
+			middle_buttons[i].setActionCommand(middle_button_names[i]);
+		}
+		panel.add(middle_buttons[0], BorderLayout.WEST);
+		panel.add(middle_buttons[1], BorderLayout.EAST);
+
+		return panel;
+	}
+
+	public JButton get_space(int width, int height, boolean bk_color) {
+		Color color;
+		if (bk_color)
+			color = new Color(205, 224, 238);
+		else
+			color = new Color(25, 140, 207);
+
 		JButton space = new JButton("");
-		space.setPreferredSize(new Dimension(1, 40));
-		space.setBackground(new Color(205, 224, 238));
+		space.setPreferredSize(new Dimension(width, height));
+		space.setMargin(new Insets(0, 0, 0, 0));
+		space.setBackground(color);
 		space.setBorderPainted(false);
 
 		return space;
+	}
+
+	public void redraw() {
+		int m = 0;
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				if (board[i][j] == 0) {
+					pics[m].setText("");
+				} else {
+					pics[m].setText(" " + board[i][j] + " ");
+				}
+
+				if (is_incorrect(board[i][j], i, j)) {
+					pics[m].setBackground(new Color(255, 0, 0));
+				} else if (m == selected) {
+					pics[selected].setBackground(new Color(238, 130, 239));
+				} else
+					pics[m].setBackground(Color.white);
+				m++;
+			}
+		}
+
+		level_label.setText("Level: " + (level + 1));
+		lives_label.setText("Lives: " + lives + "/3");
+	}
+
+	public boolean is_incorrect(int value, int x, int y) {
+		if (value == 0)
+			return false;
+		if (value == answers[level][x][y]) {
+			return false;
+		}
+		return true;
+	}
+
+	public void click(int pos) {
+		if (selected == pos)
+			selected = -1;
+		else 
+			selected = pos;
+
+		redraw();
 	}
 
 	public void click_num(char num) {
@@ -338,30 +376,6 @@ public class XuSodoku extends Applet implements ActionListener {
 		redraw();
 	}
 
-	public boolean check_place(int n, int x, int y) {
-		if (n == answers[level][x][y]) {
-			return true;
-		}
-		return false;
-	}
-
-	public int[][] get_level() {
-		int[][] ans = new int[9][9];
-
-		for (int i = 0; i < row; i++) {
-			for (int j = 0; j < col; j++) {
-				ans[i][j] = puzzles[level][i][j];
-			}
-		}
-		return ans;
-	}
-
-	public void next_level() {
-		level += 1;
-		board = get_level();
-		redraw();
-	}
-
 	public void erase(String num) {
 		if (selected != -1) {
 			int x = selected / row;
@@ -370,7 +384,6 @@ public class XuSodoku extends Applet implements ActionListener {
 			board[x][y] = 0;
 			redraw();
 		}
-
 	}
 
 	public void hint() {
@@ -388,21 +401,28 @@ public class XuSodoku extends Applet implements ActionListener {
 		redraw();
 	}
 
-	public boolean is_incorrect(int value, int x, int y) {
-		if (value == 0)
-			return false;
-		if (value == answers[level][x][y]) {
-			return false;
-		}
-		return true;
-	}
-
 	public void reset() {
 		board = get_level();
-
 		selected = -1;
 		lives = 3;
 		redraw();
+	}
+
+	public void next_level() {
+		level += 1;
+		board = get_level();
+		redraw();
+	}
+
+	public int[][] get_level() {
+		int[][] ans = new int[9][9];
+
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				ans[i][j] = puzzles[level][i][j];
+			}
+		}
+		return ans;
 	}
 
 	public boolean win() {
@@ -436,43 +456,6 @@ public class XuSodoku extends Applet implements ActionListener {
 		reset();
 	}
 
-	public void redraw() {
-		int m = 0;
-		for (int i = 0; i < row; i++) {
-			for (int j = 0; j < col; j++) {
-				if (board[i][j] == 0) {
-					pics[m].setText("");
-				} else {
-					pics[m].setText("" + board[i][j]);
-				}
-
-				if (is_incorrect(board[i][j], i, j)) {
-					pics[m].setBackground(new Color(255, 0, 0));
-				} else if ((int) (selected / row) == i && (int) (selected % row) == j) {
-					pics[selected].setBackground(new Color(238, 130, 239));
-				} else
-					pics[m].setBackground(Color.white);
-				m++;
-			}
-		}
-
-		level_label.setText("Level: " + (level + 1));
-		lives_label.setText("Lives: " + lives + "/3");
-
-	}
-
-	public void click(int pos) {
-		int x = pos / 9;
-		int y = pos % 9;
-
-		if (selected == pos || board[x][y] != 0) { // If a place is selected
-			selected = -1;
-		} else {
-			selected = pos;
-		}
-		redraw();
-	}
-
 	public void actionPerformed(ActionEvent e) {
 		String action_command = e.getActionCommand();
 
@@ -486,6 +469,8 @@ public class XuSodoku extends Applet implements ActionListener {
 			reset();
 		else if (action_command.equals("next"))
 			next_level();
+		else if (action_command.equals("instructions"))
+			cdLayout.show(p_card, "2");
 		else if (action_command.equals("erase"))
 			erase(action_command);
 		else if (action_command.equals("hint"))
@@ -493,7 +478,6 @@ public class XuSodoku extends Applet implements ActionListener {
 		else if (action_command.charAt(0) == 'b')
 			click_num(action_command.charAt(6));
 		else {
-			// grid pieces
 			int pos = Integer.parseInt(action_command);
 			click(pos);
 		}
@@ -502,7 +486,6 @@ public class XuSodoku extends Applet implements ActionListener {
 			game_won();
 		else if (lost())
 			game_lost();
-
 	}
 
 	protected static ImageIcon createImageIcon(String path) {
