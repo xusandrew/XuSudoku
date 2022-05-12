@@ -1,3 +1,4 @@
 #Sodoku
 
-Soduku game lmfao
+Soduku Grid Game in Java using Applets
+
