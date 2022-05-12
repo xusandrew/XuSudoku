@@ -43,7 +43,18 @@ public class XuSodoku extends Applet implements ActionListener {
 					{ 7, 0, 3, 2, 4, 0, 0, 0, 6 },
 					{ 9, 0, 2, 4, 0, 1, 0, 7, 8 },
 					{ 0, 8, 5, 0, 0, 0, 0, 0, 9 },
-					{ 3, 0, 4, 0, 8, 0, 0, 6, 1 },
+					{ 3, 0, 4, 0, 8, 0, 0, 6, 1 }
+			},
+			{
+					{ 0, 8, 0, 4, 0, 5, 2, 0, 0 },
+					{ 0, 0, 2, 0, 0, 0, 0, 1, 8 },
+					{ 5, 0, 6, 9, 0, 0, 0, 3, 0 },
+					{ 0, 6, 9, 0, 0, 0, 3, 0, 0 },
+					{ 0, 5, 0, 0, 0, 6, 0, 2, 1 },
+					{ 8, 0, 0, 1, 5, 7, 6, 0, 9 },
+					{ 0, 7, 5, 0, 3, 0, 9, 6, 0 },
+					{ 9, 0, 0, 6, 0, 2, 0, 5, 0 },
+					{ 0, 0, 0, 0, 0, 0, 7, 0, 2 }
 			},
 			{
 					{ 0, 4, 0, 7, 2, 0, 1, 0, 0 },
@@ -54,7 +65,7 @@ public class XuSodoku extends Applet implements ActionListener {
 					{ 9, 2, 8, 0, 7, 0, 6, 0, 1 },
 					{ 0, 0, 0, 0, 0, 0, 3, 0, 2 },
 					{ 0, 9, 0, 8, 0, 0, 4, 0, 0 },
-					{ 0, 0, 4, 0, 5, 0, 0, 0, 0 },
+					{ 0, 0, 4, 0, 5, 0, 0, 0, 0 }
 			}
 	};
 
@@ -71,6 +82,17 @@ public class XuSodoku extends Applet implements ActionListener {
 					{ 3, 7, 4, 9, 8, 2, 5, 6, 1 }
 			},
 			{
+					{ 3, 8, 7, 4, 1, 5, 2, 9, 6 },
+					{ 4, 9, 2, 7, 6, 3, 5, 1, 8 },
+					{ 5, 1, 6, 9, 2, 8, 4, 3, 7 },
+					{ 1, 6, 9, 2, 8, 4, 3, 7, 5 },
+					{ 7, 5, 4, 3, 9, 6, 8, 2, 1 },
+					{ 8, 2, 3, 1, 5, 7, 6, 4, 9 },
+					{ 2, 7, 5, 8, 3, 1, 9, 6, 4 },
+					{ 9, 4, 8, 6, 7, 2, 1, 5, 3 },
+					{ 6, 3, 1, 5, 4, 9, 7, 8, 2 }
+			},
+			{
 					{ 5, 4, 9, 7, 2, 8, 1, 6, 3 },
 					{ 8, 3, 1, 9, 4, 6, 5, 2, 7 },
 					{ 6, 7, 2, 1, 3, 5, 8, 9, 4 },
@@ -79,9 +101,8 @@ public class XuSodoku extends Applet implements ActionListener {
 					{ 9, 2, 8, 4, 7, 3, 6, 5, 1 },
 					{ 1, 5, 7, 6, 9, 4, 3, 8, 2 },
 					{ 3, 9, 6, 8, 1, 2, 4, 7, 5 },
-					{ 2, 8, 4, 3, 5, 7, 9, 1, 6 },
+					{ 2, 8, 4, 3, 5, 7, 9, 1, 6 }
 			}
-
 	};
 
 	public void init() {
@@ -99,6 +120,8 @@ public class XuSodoku extends Applet implements ActionListener {
 		card1 = new Panel();
 		JButton bkg = new JButton(createImageIcon("background.jpg"));
 		bkg.setPreferredSize(new Dimension(350, 500));
+		bkg.setMargin(new Insets(0, 0, 0, 0));
+		bkg.setBorderPainted(false);
 		bkg.setActionCommand("s2");
 		bkg.addActionListener(this);
 		card1.add(bkg);
@@ -109,6 +132,8 @@ public class XuSodoku extends Applet implements ActionListener {
 		card2 = new Panel();
 		JButton bkg = new JButton(createImageIcon("instructions.jpg"));
 		bkg.setPreferredSize(new Dimension(350, 500));
+		bkg.setMargin(new Insets(0, 0, 0, 0));
+		bkg.setBorderPainted(false);
 		bkg.setActionCommand("s3");
 		bkg.addActionListener(this);
 		card2.add(bkg);
@@ -176,16 +201,16 @@ public class XuSodoku extends Applet implements ActionListener {
 		return grid;
 	}
 
-	public JButton handle_grid_space(int i, int j){
+	public JButton handle_grid_space(int i, int j) {
 		if (i == 3 || i == 7) {
 			if (i == 2 || i == 5)
-				return get_space(5,5, false);
+				return get_space(5, 5, false);
 			else
-				return get_space(25,5, false);
+				return get_space(25, 5, false);
 
 		} else {
 			if (j == 3 || j == 7) {
-				return get_space(5,25, false);
+				return get_space(5, 25, false);
 
 			} else {
 				JButton pic_to_add = add_num_to_grid(i, j);
@@ -194,7 +219,7 @@ public class XuSodoku extends Applet implements ActionListener {
 		}
 	}
 
-	public JButton add_num_to_grid(int i, int j){
+	public JButton add_num_to_grid(int i, int j) {
 		int r_shift = (i + 1) / 4;
 		int c_shift = (j + 1) / 4;
 
@@ -208,7 +233,7 @@ public class XuSodoku extends Applet implements ActionListener {
 
 		if (board[a][b] == 0)
 			pics[m] = new JButton("   ");
-		else 
+		else
 			pics[m] = new JButton(" " + board[a][b] + " ");
 
 		pics[m].setSize(new Dimension(25, 25));
@@ -221,7 +246,7 @@ public class XuSodoku extends Applet implements ActionListener {
 		return pics[m];
 	}
 
-	public JPanel get_p1(){
+	public JPanel get_p1() {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBackground(new Color(205, 224, 238));
 		panel.setPreferredSize(new Dimension(225, 25));
@@ -234,21 +259,21 @@ public class XuSodoku extends Applet implements ActionListener {
 
 		panel.add(level_label, BorderLayout.WEST);
 		panel.add(lives_label, BorderLayout.EAST);
-	
+
 		panel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
 		return panel;
 	}
 
-	public JPanel get_p2(){
+	public JPanel get_p2() {
 		JPanel panel = new JPanel(new GridLayout(1, 4));
 		panel.setBackground(new Color(205, 224, 238));
 
 		JButton[] middle_buttons = new JButton[3];
-		String[] middle_button_names = {"erase","hint","reset"};
+		String[] middle_button_names = { "erase", "hint", "reset" };
 
-		for (int i = 0; i < 3; i++){
-			middle_buttons[i] = new JButton(createImageIcon(middle_button_names[i]+".png"));
+		for (int i = 0; i < 3; i++) {
+			middle_buttons[i] = new JButton(createImageIcon(middle_button_names[i] + ".png"));
 			middle_buttons[i].setPreferredSize(new Dimension(50, 50));
 			middle_buttons[i].setBackground(Color.white);
 			middle_buttons[i].setMargin(new Insets(0, 0, 0, 0));
@@ -260,7 +285,7 @@ public class XuSodoku extends Applet implements ActionListener {
 		return panel;
 	}
 
-	public JPanel get_p3(){
+	public JPanel get_p3() {
 		JPanel panel = new JPanel(new GridLayout(1, 9));
 		panel.setBackground(new Color(205, 224, 238));
 		panel.setPreferredSize(new Dimension(270, 30));
@@ -279,16 +304,16 @@ public class XuSodoku extends Applet implements ActionListener {
 		return panel;
 	}
 
-	public JPanel get_p4(){
+	public JPanel get_p4() {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBackground(new Color(205, 224, 238));
 		panel.setPreferredSize(new Dimension(300, 50));
 
 		JButton[] middle_buttons = new JButton[2];
-		String[] middle_button_names = {"instructions","next"};
+		String[] middle_button_names = { "instructions", "next" };
 
-		for (int i = 0; i < 2; i++){
-			middle_buttons[i] = new JButton(createImageIcon(middle_button_names[i]+".png"));
+		for (int i = 0; i < 2; i++) {
+			middle_buttons[i] = new JButton(createImageIcon(middle_button_names[i] + ".png"));
 			middle_buttons[i].setPreferredSize(new Dimension(100, 50));
 			middle_buttons[i].setBackground(Color.white);
 			middle_buttons[i].setMargin(new Insets(0, 0, 0, 0));
@@ -353,7 +378,7 @@ public class XuSodoku extends Applet implements ActionListener {
 	public void click(int pos) {
 		if (selected == pos)
 			selected = -1;
-		else 
+		else
 			selected = pos;
 
 		redraw();
@@ -409,7 +434,11 @@ public class XuSodoku extends Applet implements ActionListener {
 	}
 
 	public void next_level() {
-		level += 1;
+		if (level == puzzles.length - 1)
+			level = 0;
+		else
+			level += 1;
+
 		board = get_level();
 		redraw();
 	}
@@ -437,9 +466,9 @@ public class XuSodoku extends Applet implements ActionListener {
 		return true;
 	}
 
-	public void game_won() {
+	public void round_won() {
 		selected = -1;
-		JOptionPane.showMessageDialog(null, "Completed Sodoku!","Completed",
+		JOptionPane.showMessageDialog(null, "Completed Sodoku!", "Completed",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -449,9 +478,9 @@ public class XuSodoku extends Applet implements ActionListener {
 		return false;
 	}
 
-	public void game_lost() {
+	public void round_lost() {
 		selected = -1;
-		JOptionPane.showMessageDialog(null, "Ran out of lives!","Not Completed",
+		JOptionPane.showMessageDialog(null, "Ran out of lives!", "Not Completed",
 				JOptionPane.INFORMATION_MESSAGE);
 		reset();
 	}
@@ -482,10 +511,10 @@ public class XuSodoku extends Applet implements ActionListener {
 			click(pos);
 		}
 
-		if (win()) 
-			game_won();
+		if (win())
+			round_won();
 		else if (lost())
-			game_lost();
+			round_lost();
 	}
 
 	protected static ImageIcon createImageIcon(String path) {
